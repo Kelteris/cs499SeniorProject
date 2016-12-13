@@ -1,22 +1,6 @@
 import csv
 from random import shuffle
 
-class Chromosome(object):
-    #will later take in the parameter that is a city from google maps
-    def __init__(self):
-        pass
-
-    def mutations(self):
-        pass
-
-    def fitness(self):
-        pass
-
-class generation(object):
-    # will hold lots of chromosomes which will represent an order of citys
-    def __init__(self):
-        pass
-
 class City(object):
 
     def __init__(self, name, latitude, longitude, miles_to_la,
@@ -65,44 +49,120 @@ class City(object):
         return distances
 
 
+class Chromosome(object):
+    #will later take in the parameter that is a city from google maps
 
+    # list of 6 cities
+    # la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1)
+    # lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 2)
+    # nyc = City("nyc", 40.66, 73.94, 2451, 2233, 0, 1972, 1089, 1373, 3)
+    # slc = City("slc", 40.78, 111.9, 579, 362, 1972, 0, 2089, 1000, 4)
+    # miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 5)
+    # dallas = City("dallas", 32.79, 96.77, 1240, 1071, 1373, 1000, 1111, 0, 6)
 
-
-def main():
-
-    #list of 6 cities
-    #la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1)
-    #lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 2)
-    #nyc = City("nyc", 40.66, 73.94, 2451, 2233, 0, 1972, 1089, 1373, 3)
-    #slc = City("slc", 40.78, 111.9, 579, 362, 1972, 0, 2089, 1000, 4)
-    #miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 5)
-    #dallas = City("dallas", 32.79, 96.77, 1240, 1071, 1373, 1000, 1111, 0, 6)
-
-    #set of 8
-    #la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1744, 2597, 1)
-    #lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 1521, 2375, 2)
-    #nyc = City("nyc", 40.66, 73.94, 2451, 2233, 0, 1972, 1089, 1373, 734, 190, 3)
-    #slc = City("slc", 40.78, 111.9, 579, 362, 1972, 0, 2089, 1000, 1242, 2099, 4)
-    #miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 1268, 1256, 5)
-    #dallas = City("dallas", 32.79, 96.77, 1240, 1071, 1373, 1000, 1111, 0, 857, 1552, 6)
-    #milwaukee = City("milwaukee", 43.06, 87.97, 1744, 1521, 734, 1242, 1268, 857, 0, 858, 7)
-    #boston = City("boston", 42.33, 71.02, 2597, 2375, 190, 2099, 1256, 1552, 858, 0, 8)
+    # set of 8
+    # la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1744, 2597, 1)
+    # lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 1521, 2375, 2)
+    # nyc = City("nyc", 40.66, 73.94, 2451, 2233, 0, 1972, 1089, 1373, 734, 190, 3)
+    # slc = City("slc", 40.78, 111.9, 579, 362, 1972, 0, 2089, 1000, 1242, 2099, 4)
+    # miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 1268, 1256, 5)
+    # dallas = City("dallas", 32.79, 96.77, 1240, 1071, 1373, 1000, 1111, 0, 857, 1552, 6)
+    # milwaukee = City("milwaukee", 43.06, 87.97, 1744, 1521, 734, 1242, 1268, 857, 0, 858, 7)
+    # boston = City("boston", 42.33, 71.02, 2597, 2375, 190, 2099, 1256, 1552, 858, 0, 8)
 
     # set of 14 cities
     la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1744, 2597, 1269, 959, 825, 1937, 440, 2137, 1)
     lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 1521, 2375, 1047, 871, 755, 1746, 362, 1920, 2)
     nyc = City("nyc", 40.66, 73.94, 2451, 2233, 0, 1972, 1089, 1373, 734, 190, 1187, 2048, 2446, 746, 2123, 316, 3)
     slc = City("slc", 40.78, 111.9, 579, 362, 1972, 0, 2089, 1000, 1242, 2099, 796, 701, 636, 1583, 591, 1668, 4)
-    miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 1268, 1256, 1405, 2733, 2708, 604, 1908, 1011, 5)
-    dallas = City("dallas", 32.79, 96.77, 1240, 1071, 1373, 1000, 1111, 0, 857, 1552, 554, 1681, 1633, 721, 828, 1070, 6)
-    milwaukee = City("milwaukee", 43.06, 87.97, 1744, 1521, 734, 1242, 1268, 857, 0, 858, 478, 1692, 1720, 669, 1461, 446, 7)
-    boston = City("boston", 42.33, 71.02, 2597, 2375, 190, 2099, 1256, 1552, 858, 0, 1328, 2492, 2540, 937, 2284, 483, 8)
-    lincoln = City("lincoln", 40.81, 96.68, 1269, 1047, 1187, 796, 1405, 554, 478, 1328, 0, 1349, 1346, 834, 989, 877, 9)
-    seattle = City("seattle", 47.62, 122.4, 959, 871, 2048, 701, 2733, 1681, 1692, 2492, 1349, 0, 145, 2182, 1218, 2138, 10)
-    portland = City("portland", 45.54, 122.6, 825, 755, 2446, 636, 2708, 1633, 1720, 2540, 1346, 145, 0, 2173, 1111, 2166, 11)
-    atlanta = City("atlanta", 33.76, 84.42, 1937, 1746, 746, 1583, 604, 721, 669, 937, 834, 2182, 2173, 0, 1543, 521, 12)
-    tucson = City("tucson", 32.15, 110.9, 440, 362, 2123, 591, 1908, 828, 1461, 2284, 989, 1218, 1111, 1543, 0, 1808, 13)
-    pittsburg = City("pittsburgh", 40.44, 79.98, 2137, 1920, 316, 1668, 1011, 1070, 446, 483, 877, 2138, 2166, 521, 1808, 0, 14)
+    miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 1268, 1256, 1405, 2733, 2708, 604, 1908, 1011,
+                 5)
+    dallas = City("dallas", 32.79, 96.77, 1240, 1071, 1373, 1000, 1111, 0, 857, 1552, 554, 1681, 1633, 721, 828, 1070,
+                  6)
+    milwaukee = City("milwaukee", 43.06, 87.97, 1744, 1521, 734, 1242, 1268, 857, 0, 858, 478, 1692, 1720, 669, 1461,
+                     446, 7)
+    boston = City("boston", 42.33, 71.02, 2597, 2375, 190, 2099, 1256, 1552, 858, 0, 1328, 2492, 2540, 937, 2284, 483,
+                  8)
+    lincoln = City("lincoln", 40.81, 96.68, 1269, 1047, 1187, 796, 1405, 554, 478, 1328, 0, 1349, 1346, 834, 989, 877,
+                   9)
+    seattle = City("seattle", 47.62, 122.4, 959, 871, 2048, 701, 2733, 1681, 1692, 2492, 1349, 0, 145, 2182, 1218, 2138,
+                   10)
+    portland = City("portland", 45.54, 122.6, 825, 755, 2446, 636, 2708, 1633, 1720, 2540, 1346, 145, 0, 2173, 1111,
+                    2166, 11)
+    atlanta = City("atlanta", 33.76, 84.42, 1937, 1746, 746, 1583, 604, 721, 669, 937, 834, 2182, 2173, 0, 1543, 521,
+                   12)
+    tucson = City("tucson", 32.15, 110.9, 440, 362, 2123, 591, 1908, 828, 1461, 2284, 989, 1218, 1111, 1543, 0, 1808,
+                  13)
+    pittsburg = City("pittsburgh", 40.44, 79.98, 2137, 1920, 316, 1668, 1011, 1070, 446, 483, 877, 2138, 2166, 521,
+                     1808, 0, 14)
+
+    cities = [la, lv, nyc, slc, miami, dallas, milwaukee, boston, lincoln, seattle, portland, atlanta, tucson,
+              pittsburg]
+
+
+    def __init__(self):
+        pass
+
+    def mutations(self):
+        pass
+
+    def caculate_fitness(self):
+        total_miles = 0
+        shuffle(self.cities)
+        for i in range(len(self.cities)):
+
+
+            #print(i)
+            #print(cities[i].name)
+            dictionary = self.cities[i].make_dictionary_of_distances()
+            #print (dictionary)
+            if (i < (len(self.cities) - 1)):
+                next_city = "miles_to_" + self.cities[i + 1].name
+                total_miles += dictionary[next_city]
+                #print (next_city)
+                #print (total_miles)
+                #if (cities[i].miles)
+                #print (cities[i].miles_to_ + cities[i + 1].name)
+            else:
+                next_city = "miles_to_" + self.cities[0].name
+                total_miles += dictionary[next_city]
+                #print(next_city)
+                #print(total_miles)
+
+        return total_miles
+
+class generation(object):
+
+    children = []
+
+    def __init__(self):
+        pass
+
+    def create_children(self):
+
+        for creating in range(1000):
+            child = Chromosome()
+            self.children.append(child)
+
+        return self.children
+
+
+
+
+def main():
+
+    #create or load in the children
+
+    current_generation = generation()
+    list_of_children = current_generation.create_children()
+
+    for i in range(len(list_of_children)):
+
+        fitness = list_of_children[i].caculate_fitness()
+        print (fitness)
+
+
+
 
 
     #with open('cd.csv') as csvfile:
@@ -110,14 +170,14 @@ def main():
     #    for row in reader:
     #        print(row['start_city'], row['end_city'], row['distance'])
 
-    cities = [la, lv, nyc, slc, miami, dallas, milwaukee, boston, lincoln, seattle, portland, atlanta, tucson, pittsburg]
+
 
     #print (cities[0].name, cities[1].name, cities[2].name, cities[3].name, cities[4].name, cities[5].name)
 
-    best_distance = 10000
+    '''best_distance = 15000
     worst_distance = 0
     num_distances = []
-    for run_times in range(1000000):
+    for run_times in range(1000):
         total_miles = 0
         shuffle(cities)
         for i in range(len(cities)):
@@ -168,7 +228,7 @@ def main():
     #for i in range(len(best_cities)):
      #  print (best_cities[i].name, end=" ")
     #for i in range(len(worst_cities)):
-       # print (worst_cities[i].name, end=" ")
+       # print (worst_cities[i].name, end=" ")'''
     '''
     with open('gendist.csv', 'w') as csvfile:
         #fieldnames = ['first_name', 'last_name',]
