@@ -99,6 +99,7 @@ class Chromosome(object):
     cities = [la, lv, nyc, slc, miami, dallas, milwaukee, boston, lincoln, seattle, portland, atlanta, tucson,
               pittsburg]
 
+    fitness = 0
 
     def __init__(self):
         pass
@@ -138,29 +139,85 @@ class generation(object):
     def __init__(self):
         pass
 
-    def create_children(self):
+    def write_generation(self):
+        pass
 
-        for creating in range(1000):
-            child = Chromosome()
-            self.children.append(child)
+    def read_generation(self):
+        pass
 
-        return self.children
+    def create_child(self):
+
+        child = Chromosome()
+
+        return child
 
 
 
 
 def main():
 
-    #create or load in the children
+    # this will be a tally separate from generations
+    best_distance = 20000
+    worst_distance = 0
 
     current_generation = generation()
-    list_of_children = current_generation.create_children()
+    generations = 1
+    generation_number = 0
+    #while generations == 0:
+        #print("Please enter how many generations you would like to create: ")
+        #generations = int(input())
+    while generation_number < generations:
 
-    for i in range(len(list_of_children)):
+        generation_number += 1
+        current_generation.children.clear()
+        for i in range(100000):
+            current_generation.children.append(current_generation.create_child())
 
-        fitness = list_of_children[i].caculate_fitness()
-        print (fitness)
+        for i in range(len(current_generation.children)):
+            fitness = current_generation.children[i].caculate_fitness()
+            #print(len(current_generation.children[i].cities))
+            '''with open('gendist.csv', 'a') as csvfile:
+                # fieldnames = ['first_name', 'last_name',]
+                fieldnames = ['total_distance', 'city_order']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator='\n')
 
+                writer.writeheader()
+                city_name_order = ""
+                for names in range(len(current_generation.children[i].cities)):
+                    city_name_order = city_name_order + current_generation.children[i].cities[names].name
+                    if (names < (len(current_generation.children[i].cities) - 1)):
+                        city_name_order = city_name_order + ","
+                #print (city_name_order)
+                writer.writerow({'total_distance': fitness, 'city_order': city_name_order})
+                # writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
+                # writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
+                # writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})'''
+
+
+
+            # print (fitness)
+            if (fitness < best_distance):
+                best_distance = fitness
+                # best_cities = list_of_children[i].citesi
+                print("update best:", "Num: " + str(i))
+                # for i in range(len(best_cities)):
+                # print(best_cities[i].name, end=" ")
+
+
+                print(best_distance)
+            if (fitness > worst_distance):
+                worst_distance = fitness
+                # worst_cities = cities
+                print("update worst:", "Num: " + str(i))
+                # for i in range(len(worst_cities)):
+                # print(worst_cities[i].name, end=" ")
+
+                print(worst_distance)
+        #print(len(current_generation.children))
+        print("This is the Best Distance")
+        print(best_distance)
+        print("This is the Worst Distance")
+        print(worst_distance)
 
 
 
