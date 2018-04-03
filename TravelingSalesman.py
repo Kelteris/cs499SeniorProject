@@ -93,11 +93,11 @@ class Chromosome(object):
                    12)
     tucson = City("tucson", 32.15, 110.9, 440, 362, 2123, 591, 1908, 828, 1461, 2284, 989, 1218, 1111, 1543, 0, 1808,
                   13)
-    pittsburg = City("pittsburgh", 40.44, 79.98, 2137, 1920, 316, 1668, 1011, 1070, 446, 483, 877, 2138, 2166, 521,
+    pittsburgh = City("pittsburgh", 40.44, 79.98, 2137, 1920, 316, 1668, 1011, 1070, 446, 483, 877, 2138, 2166, 521,
                      1808, 0, 14)
 
     cities = [la, lv, nyc, slc, miami, dallas, milwaukee, boston, lincoln, seattle, portland, atlanta, tucson,
-              pittsburg]
+              pittsburgh]
 
     fitness = 0
 
@@ -140,12 +140,27 @@ class generation(object):
         pass
 
     def write_generation(self):
-        pass
+        with open("text.txt", "w") as my_file:
+            city_name_order = ""
+            for i in range(len(self.children)):
+                fitness = self.children[i].fitness = self.children[i].caculate_fitness()
+                city_name_order = str(fitness) + ","
+                for names in range(len(self.children[i].cities)):
+                    city_name_order = city_name_order + self.children[i].cities[names].name
+                    if (names < (len(self.children[i].cities) - 1)):
+                        city_name_order = city_name_order + ","
+                #print(city_name_order)
+                my_file.write(city_name_order + "\n")
+            print (city_name_order)
 
     def read_generation(self):
-        pass
+        with open("text.txt", "r") as my_file:
+            for i in range(1000):
+                print (my_file.readline(), end="")
+                new_string = my_file.readline().split(",")
+                print (new_string)
 
-    def create_child(self):
+    def create_random_child(self):
 
         child = Chromosome()
 
@@ -159,24 +174,39 @@ def main():
     # this will be a tally separate from generations
     best_distance = 20000
     worst_distance = 0
-
+    current_current_best_distance = 0
+    current_current_worst_distance = 0
     current_generation = generation()
     generations = 1
     generation_number = 0
     #while generations == 0:
         #print("Please enter how many generations you would like to create: ")
         #generations = int(input())
+    current_generation.read_generation()
     while generation_number < generations:
 
         generation_number += 1
         current_generation.children.clear()
-        for i in range(100000):
-            current_generation.children.append(current_generation.create_child())
+        for i in range(1000):
+            current_generation.children.append(current_generation.create_random_child())
 
-        for i in range(len(current_generation.children)):
-            fitness = current_generation.children[i].caculate_fitness()
+        current_generation.write_generation()
+        '''with open("text.txt", "w") as my_file:
+
+            for i in range(len(current_generation.children)):
+                fitness = current_generation.children[i].fitness = current_generation.children[i].caculate_fitness()
+                city_name_order = str(fitness) + ","
+                for names in range(len(current_generation.children[i].cities)):
+                    city_name_order = city_name_order + current_generation.children[i].cities[names].name
+                    if (names < (len(current_generation.children[i].cities) - 1)):
+                        city_name_order = city_name_order + ","
+                #print(city_name_order)
+                my_file.write(city_name_order + "\n")
+
+
+            print (i)'''
             #print(len(current_generation.children[i].cities))
-            '''with open('gendist.csv', 'a') as csvfile:
+        '''with open('gendist.csv', 'a') as csvfile:
                 # fieldnames = ['first_name', 'last_name',]
                 fieldnames = ['total_distance', 'city_order']
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames, lineterminator='\n')
@@ -187,7 +217,7 @@ def main():
                     city_name_order = city_name_order + current_generation.children[i].cities[names].name
                     if (names < (len(current_generation.children[i].cities) - 1)):
                         city_name_order = city_name_order + ","
-                #print (city_name_order)
+                print (city_name_order)
                 writer.writerow({'total_distance': fitness, 'city_order': city_name_order})
                 # writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
                 # writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
@@ -196,28 +226,29 @@ def main():
 
 
             # print (fitness)
-            if (fitness < best_distance):
-                best_distance = fitness
+        '''if (fitness < best_distance):
+            best_distance = fitness
                 # best_cities = list_of_children[i].citesi
-                print("update best:", "Num: " + str(i))
+        print("update best:", "Num: " + str(i))
                 # for i in range(len(best_cities)):
                 # print(best_cities[i].name, end=" ")
 
 
-                print(best_distance)
-            if (fitness > worst_distance):
-                worst_distance = fitness
+        print(best_distance)
+        if (fitness > worst_distance):
+            worst_distance = fitness
                 # worst_cities = cities
-                print("update worst:", "Num: " + str(i))
+            print("update worst:", "Num: " + str(i))
                 # for i in range(len(worst_cities)):
                 # print(worst_cities[i].name, end=" ")
 
-                print(worst_distance)
+            print(worst_distance)
         #print(len(current_generation.children))
         print("This is the Best Distance")
         print(best_distance)
         print("This is the Worst Distance")
-        print(worst_distance)
+        print(worst_distance)'''
+
 
 
 
