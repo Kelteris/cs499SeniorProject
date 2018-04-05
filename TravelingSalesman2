@@ -118,12 +118,30 @@ class Generation(object):
     def __init__(self):
         pass
 
-    def read_generation(self):
-        with open("chlidrenText", "r") as my_file:
-            for i in range(1000):
-                print(my_file.readline(), end="")
-                new_string = my_file.readline().split(",")
-                print(new_string)
+    def write_generation(self, genNumW):
+        with open("offspring_" + str(genNumW) + ".txt", "w") as my_file:
+            city_name_order = ""
+            for i in range(len(self.children)):
+                fitness = self.children[i].fitness = self.children[i].caculate_fitness()
+                city_name_order = str(fitness) + ","
+                for names in range(len(self.children[i].cities)):
+                    city_name_order = city_name_order + str(self.children[i].cities[names].id_number)
+                    if (names < (len(self.children[i].cities) - 1)):
+                        city_name_order = city_name_order + ","
+                #print(city_name_order)
+                my_file.write(city_name_order + "\n")
+            #print (city_name_order)
+
+    def read_generation(self,genNumR):
+        with open("offspring_" + str(genNumR) + ".txt", "r") as my_file:
+            for line in my_file:
+                tempLine = line.rstrip("\n")
+                #tempLine.rstrip("\n")
+                print(tempLine)
+                #self.children.append(my_file.readline().split(","))
+                #print(my_file.readline(), end="")
+                #new_string = my_file.readline().split(",")
+                #print(new_string)
 
     def create_random_child(self):
         child = Chromosome()
@@ -138,21 +156,41 @@ def main():
     # Total Number of generations decided upon
     total_generations = 5
 
-    # The current generations number
+    # The current generation's number in regard to the total
     generation_number = 0
 
-    # west_distance will be lowered to the best distance
+    # The number of children in each generation
+    offspring = 1000
+    # Best_distance will be lowered to the best distance
     best_distance = 20000
 
-    # worst_distance will be raised to show the worst distance
+    # Worst_distance will be raised to show the worst distance
     worst_distance = 0
 
+    # String of the best city of the living generation
     best_cities = ""
+
+    # String of the best city of a generation
     worst_cities = ""
 
-    # Create the first set of children
-    for i in range(1000):
+    # Create the first set of children and write the first generation to a file
+    for i in range(offspring):
         living_generation.children.append(living_generation.create_random_child())
+    living_generation.write_generation(0)
+
+    # Populate and modify the next generations from the first.
+    for i in range(total_generations):
+        for j in range(offspring):
+            living_generation.children = []
+            living_generation.children = living_generation.read_generation(j)
+            #DO something to evolve children
+            living_generation.write_generation(j+1)
+
+
+
+
+
+
 
     for i in range(len(living_generation.children)):
         fitness = living_generation.children[i].fitness = living_generation.children[i].caculate_fitness()
@@ -161,7 +199,7 @@ def main():
             city_name_order = city_name_order + living_generation.children[i].cities[names].name
             if (names < (len(living_generation.children[i].cities) - 1)):
                 city_name_order = city_name_order + ", "
-        city_name_order = city_name_order + ", " + living_generation.children[i].cities[0].name
+        city_name_order = city_name_order + "," + living_generation.children[i].cities[0].name
         print(city_name_order)
 
         if (fitness < best_distance):
@@ -188,7 +226,7 @@ def main():
     print(worst_distance)
     print(worst_cities)
 
-    # THis is
+    # This is
     # living_generation.read_generation()
 
 
