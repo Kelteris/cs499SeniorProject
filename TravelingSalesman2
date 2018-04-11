@@ -219,8 +219,9 @@ class Generation(object):
     '''This is called from the crossover function to get to strong parents'''
     def selection(self):
         for t in range(2):
-            self.tournament_list.clear()
-            self.best_candidate.personal_fitness = 20000
+            self.tournament_list = []
+            self.best_candidate = Chromosome(0, 0, []) #stupid bug here for some reason... without this it breaks...
+            self.best_candidate.personal_fitness = 25000
             for i in range(100):
                 self.tournament_list.append(choice(self.parents))
             if t == 0:
@@ -260,9 +261,9 @@ class Generation(object):
             self.children.append(self.new_child)
 
     def mutation(self):
-        for i in range(50):
-            self.mutation_start = randint(0, 11)
-            self.mutation_end = self.mutation_start + 3
+        for i in range(10):
+            self.mutation_start = randint(0, 10)
+            self.mutation_end = self.mutation_start + 4
             self.mutation_array = self.children[i].personal_order[self.mutation_start:self.mutation_end]
             for j in range(14):
                 if j == self.mutation_start:
@@ -277,7 +278,9 @@ class Generation(object):
     def write_generation(self, genNumW):
         with open("generations/generation_" + str(genNumW) + ".txt", "w") as my_file:
             city_name_order = ""
+            self.generation_average = 0
             for i in range(len(self.children)):
+                self.generation_average += self.children[i].personal_fitness
                 city_name_order = str(self.children[i].personal_score) + ";" + str(self.children[i].personal_fitness) + ";"
                 for names in range(len(self.children[i].personal_cities)):
                     city_name_order = city_name_order + str(self.children[i].personal_cities[names].id_number)
@@ -316,7 +319,7 @@ def main():
     living_generation = Generation()
 
     '''Total Number of generations decided upon'''
-    total_generations = 499
+    total_generations = 400
 
     '''Holds the average fitness for each generation'''
     generations_average_fitness = []
@@ -325,7 +328,7 @@ def main():
     generation_number = 0
 
     # The number of children in each generation
-    offspring = 1000
+    offspring = 600
 
     '''Surviving offspring-not used'''
     #surviving_offspring = []
@@ -352,9 +355,8 @@ def main():
         living_generation.children.append(living_generation.create_random_child())
         living_generation.children[i].calculate_fitness()
         living_generation.children[i].calculate_score()
-        living_generation.generation_average += living_generation.children[i].personal_fitness
-    generations_average_fitness.append(living_generation.generation_average/offspring)
     living_generation.write_generation(0)
+    generations_average_fitness.append(int(living_generation.generation_average / offspring))
 
     # Populate and modify the next generations from the first.
     for i in range(total_generations):
@@ -366,14 +368,13 @@ def main():
             '''Evolution functions'''
             living_generation.crossover()
             living_generation.mutation()
-            for j in range(len(living_generation.children)):
-                living_generation.generation_average += living_generation.children[j].personal_fitness
-            generations_average_fitness.append(living_generation.generation_average/offspring)
+
             living_generation.write_generation(i+1)
+            generations_average_fitness.append(int(living_generation.generation_average / offspring))
     gen_averages = open('GA.csv', 'w')
     with gen_averages:
         writer = csv.writer(gen_averages)
-        writer.writerows(generations_average_fitness)
+        writer.writerow(generations_average_fitness)
     print("Writing successful")
 
     '''code to show the best solution and stop the program'''
