@@ -1,4 +1,7 @@
 from random import shuffle
+from random import choice
+from random import randint
+import csv
 
 class City(object):
 
@@ -30,33 +33,34 @@ class City(object):
 
     def make_dictionary_of_distances(self):
 
-        distances = {'miles_to_la' : self.miles_to_la,
+        distances = {'miles_to_la': self.miles_to_la,
                      'miles_to_lv': self.miles_to_lv,
                      'miles_to_nyc': self.miles_to_nyc,
                      'miles_to_slc': self.miles_to_slc,
                      'miles_to_miami': self.miles_to_miami,
                      'miles_to_dallas': self.miles_to_dallas,
                      'miles_to_milwaukee': self.miles_to_milwaukee,
-                     'miles_to_boston' : self.miles_to_boston,
-                     'miles_to_lincoln' : self.miles_to_lincoln,
-                     'miles_to_seattle' : self.miles_to_seattle,
-                     'miles_to_portland' : self.miles_to_portland,
-                     'miles_to_atlanta' : self.miles_to_atlanta,
-                     'miles_to_tucson' : self.miles_to_tucson,
-                     'miles_to_pittsburgh' : self.miles_to_pittsburgh}
+                     'miles_to_boston': self.miles_to_boston,
+                     'miles_to_lincoln': self.miles_to_lincoln,
+                     'miles_to_seattle': self.miles_to_seattle,
+                     'miles_to_portland': self.miles_to_portland,
+                     'miles_to_atlanta': self.miles_to_atlanta,
+                     'miles_to_tucson': self.miles_to_tucson,
+                     'miles_to_pittsburgh': self.miles_to_pittsburgh}
 
         return distances
 
 class Chromosome(object):
-
 
     def __init__(self, personal_score, personal_fitness, personal_order):
         self.personal_score = personal_score
         self.personal_fitness = personal_fitness
         self.personal_order = personal_order
         self.personal_cities = []
-        self.la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1744, 2597, 1269, 959, 825, 1937, 440, 2137, 1)
-        self.lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 1521, 2375, 1047, 871, 755, 1746, 362, 1920, 2)
+        self.la = City("la", 34.02, 118.4, 0, 228, 2481, 579, 2339, 1240, 1744, 2597, 1269, 959, 825, 1937, 440, 2137,
+                       1)
+        self.lv = City("lv", 36.23, 115.3, 228, 0, 2233, 362, 2181, 1071, 1521, 2375, 1047, 871, 755, 1746, 362, 1920,
+                       2)
         self.nyc = City("nyc", 40.66, 73.94, 2451, 2233, 0, 1972, 1089, 1373, 734, 190, 1187, 2048, 2446, 746, 2123, 316, 3)
         self.slc = City("slc", 40.78, 111.9, 579, 362, 1972, 0, 2089, 1000, 1242, 2099, 796, 701, 636, 1583, 591, 1668, 4)
         self.miami = City("miami", 25.78, 80.21, 2339, 2181, 1089, 2089, 0, 1111, 1268, 1256, 1405, 2733, 2708, 604, 1908,
@@ -66,8 +70,7 @@ class Chromosome(object):
                       1070,
                       6)
         self.milwaukee = City("milwaukee", 43.06, 87.97, 1744, 1521, 734, 1242, 1268, 857, 0, 858, 478, 1692, 1720, 669,
-                         1461,
-                         446, 7)
+                              1461, 446, 7)
         self.boston = City("boston", 42.33, 71.02, 2597, 2375, 190, 2099, 1256, 1552, 858, 0, 1328, 2492, 2540, 937, 2284,
                       483,
                       8)
@@ -88,7 +91,7 @@ class Chromosome(object):
         self.pittsburgh = City("pittsburgh", 40.44, 79.98, 2137, 1920, 316, 1668, 1011, 1070, 446, 483, 877, 2138,
                                2166, 521, 1808, 0, 14)
 
-    #will later take in the parameter that is a city from google maps
+    # will later take in the parameter that is a city from google maps
 
     # list of 14 cities
 
@@ -107,26 +110,13 @@ class Chromosome(object):
             self.personal_cities = [self.la, self.lv, self.nyc, self.slc, self.miami, self.dallas, self.milwaukee,
                                     self.boston, self.lincoln, self.seattle, self.portland, self.atlanta, self.tucson,
                                     self.pittsburgh]
-            # order = ""
-            # for city in self.personal_cities:
-            #     order += city.name + ","
             shuffle(self.personal_cities)
-            # order = ""
-            # for city in self.personal_cities:
-            #     order += city.name + ","
-            # print(order)
 
 
-    def mutations(self):
-        pass
 
     def calculate_fitness(self):
         total_miles = 0
-        #shuffle(self.cities)
         for i in range(len(self.personal_cities)):
-
-            #print(i)
-            #print(self.cities[i].name)
             dictionary = self.personal_cities[i].make_dictionary_of_distances()
             #print (dictionary)
             if (i < (len(self.personal_cities) - 1)):
@@ -143,18 +133,28 @@ class Chromosome(object):
         self.personal_fitness = total_miles
 
     def calculate_score(self):
-        if(self.personal_fitness <= 10000):
-            self.personal_score = 85
-        elif(self.personal_fitness > 10000 and self.personal_fitness <= 13000):
+        if self.personal_fitness <= 10000:
+            self.personal_score = 100
+        elif 10000 < self.personal_fitness <= 11000:
+            self.personal_score = 90
+        elif 11000 < self.personal_fitness <= 12000:
+            self.personal_score = 80
+        elif 12000 < self.personal_fitness <= 13000:
+            self.personal_score = 70
+        elif 13000 < self.personal_fitness <= 14000:
             self.personal_score = 60
-        elif (self.personal_fitness > 13000 and self.personal_fitness <= 15000):
+        elif 14000 < self.personal_fitness <= 15000:
             self.personal_score = 50
-        elif (self.personal_fitness > 15000 and self.personal_fitness <= 18000):
+        elif 15000 < self.personal_fitness <= 16000:
             self.personal_score = 40
-        elif (self.personal_fitness > 18000 and self.personal_fitness <= 20000):
+        elif 16000 < self.personal_fitness <= 17000:
             self.personal_score = 30
-        else:
+        elif 17000 < self.personal_fitness <= 18000:
+            self.personal_score = 20
+        elif 18000 < self.personal_fitness <= 19000:
             self.personal_score = 10
+        else:
+            self.personal_score = 5
 
     def string_to_cities(self):
         self.personal_cities = []
@@ -198,13 +198,84 @@ class Generation(object):
 
 
     def __init__(self):
+        self.generation_average = 0
         self.children = []
+        self.parents = []
+        self.tournament_list = []
+        self.best_candidate = Chromosome(0, 0, [])
+        self.parent1 = Chromosome(0, 0, [])
+        self.sub_start_p1 = 0
+        self.sub_end_p1 = 0
+        self.sub_array_p1 = []
+        self.parent2 = Chromosome(0, 0, [])
+        self.new_child = Chromosome(0, 0, [])
+        self.mutation_array = []
+        self.mutation_start = 0
+        self.mutation_end = 0
         self.score = 0
         self.fit = 0
         self.orderList = []
 
+    '''This is called from the crossover function to get to strong parents'''
+    def selection(self):
+        for t in range(2):
+            self.tournament_list.clear()
+            self.best_candidate.personal_fitness = 20000
+            for i in range(100):
+                self.tournament_list.append(choice(self.parents))
+            if t == 0:
+                for j in range(len(self.tournament_list)):
+                    if int(self.best_candidate.personal_fitness) > int(self.tournament_list[j].personal_fitness):
+                        self.best_candidate = self.tournament_list[j]
+                self.parent1 = self.best_candidate
+            else:
+                for j in range(len(self.tournament_list)):
+                    if int(self.best_candidate.personal_fitness) > int(self.tournament_list[j].personal_fitness):
+                        self.best_candidate = self.tournament_list[j]
+                self.parent2 = choice(self.tournament_list)
+
+    '''This was very confusing until Weston Dransfield helped to make it more clear.'''
+    def crossover(self):
+        for i in range(len(self.parents)):
+            self.selection()
+            self.new_child = Chromosome(0, 0, [])
+            self.sub_start_p1 = randint(0, 10)
+            self.sub_end_p1 = self.sub_start_p1 + 4
+            self.sub_array_p1 = self.parent1.personal_order[self.sub_start_p1:self.sub_end_p1]
+            for j in range(14):
+                if j == self.sub_start_p1:
+                    self.new_child.personal_order += self.sub_array_p1
+                    if self.parent2.personal_order[j] in self.new_child.personal_order or self.parent2.personal_order[j] in self.sub_array_p1:
+                        pass
+                    else:
+                        self.new_child.personal_order.append(self.parent2.personal_order[j])
+                else:
+                    if self.parent2.personal_order[j] in self.new_child.personal_order or self.parent2.personal_order[j] in self.sub_array_p1:
+                        pass
+                    else:
+                        self.new_child.personal_order.append(self.parent2.personal_order[j])
+            self.new_child.string_to_cities()
+            self.new_child.calculate_fitness()
+            self.new_child.calculate_score()
+            self.children.append(self.new_child)
+
+    def mutation(self):
+        for i in range(50):
+            self.mutation_start = randint(0, 11)
+            self.mutation_end = self.mutation_start + 3
+            self.mutation_array = self.children[i].personal_order[self.mutation_start:self.mutation_end]
+            for j in range(14):
+                if j == self.mutation_start:
+                    for k in reversed(self.mutation_array):
+                        self.children[i].personal_order[j] = k
+                        j += 1
+            self.children[i].string_to_cities()
+            self.children[i].calculate_fitness()
+            self.children[i].calculate_score()
+
+
     def write_generation(self, genNumW):
-        with open("offspring_" + str(genNumW) + ".txt", "w") as my_file:
+        with open("generations/generation_" + str(genNumW) + ".txt", "w") as my_file:
             city_name_order = ""
             for i in range(len(self.children)):
                 city_name_order = str(self.children[i].personal_score) + ";" + str(self.children[i].personal_fitness) + ";"
@@ -217,26 +288,26 @@ class Generation(object):
             #print (city_name_order)
 
     def read_generation(self,genNumR):
-        with open("offspring_" + str(genNumR) + ".txt", "r") as my_file:
+        with open("generations/generation_" + str(genNumR) + ".txt", "r") as my_file:
             for line in my_file:
 
                 lineholder = []
                 tempLine = line.rstrip("\n")
-                self.score,self.fit,self.orderList = tempLine.split(';')
+                self.score, self.fit, self.orderList = tempLine.split(';')
                 #print(tempLine)
-                self.children.append(Chromosome(self.score, self.fit, self.orderList.split(",")))
+                self.parents.append(Chromosome(self.score, self.fit, self.orderList.split(",")))
                 #self.children.append(my_file.readline().split(","))
                 #print(my_file.readline(), end="")
                 #new_string = my_file.readline().split(",")
                 #print(new_string)
-        for child in self.children:
-            child.string_to_cities()
+        for parent in self.parents:
+            parent.string_to_cities()
 
     def create_random_child(self):
-        newChild = Chromosome(0, 0, [])
-        newChild.create_random_cities()
-        newChild.cities_to_string()
-        return newChild
+        random_child = Chromosome(0, 0, [])
+        random_child.create_random_cities()
+        random_child.cities_to_string()
+        return random_child
 
 def main():
 
@@ -244,14 +315,21 @@ def main():
     '''The generation that is currently alive'''
     living_generation = Generation()
 
-    # Total Number of generations decided upon
-    total_generations = 5
+    '''Total Number of generations decided upon'''
+    total_generations = 499
+
+    '''Holds the average fitness for each generation'''
+    generations_average_fitness = []
 
     # The current generation's number in regard to the total
     generation_number = 0
 
     # The number of children in each generation
     offspring = 1000
+
+    '''Surviving offspring-not used'''
+    #surviving_offspring = []
+
     # Best_distance will be lowered to the best distance
     best_distance = 20000
 
@@ -274,30 +352,73 @@ def main():
         living_generation.children.append(living_generation.create_random_child())
         living_generation.children[i].calculate_fitness()
         living_generation.children[i].calculate_score()
+        living_generation.generation_average += living_generation.children[i].personal_fitness
+    generations_average_fitness.append(living_generation.generation_average/offspring)
     living_generation.write_generation(0)
 
     # Populate and modify the next generations from the first.
     for i in range(total_generations):
             print("Starting generation " + str(i + 1))
             living_generation.children = []
+            living_generation.parents = []
             living_generation.read_generation(i)
-            # for k in range(offspring):
-            #     if (living_generation.children[k].personal_fitness <= str(best_solution)):
-            #         city_name_order = ""
-            #         for names in range(len(living_generation.children[k].personal_cities)):
-            #             city_name_order = city_name_order + living_generation.children[k].personal_cities[names].name
-            #             if (names < (len(living_generation.children[k].personal_cities) - 1)):
-            #                 city_name_order = city_name_order + ","
-            #         print("A viable solution is: " + str(living_generation.children[k].personal_fitness))
-            #         print("And the distance is " + str(living_generation.children[k].personal_fitness) + " miles")
-            #         return
-            #DO something to evolve children
+
+            '''Evolution functions'''
+            living_generation.crossover()
+            living_generation.mutation()
+            for j in range(len(living_generation.children)):
+                living_generation.generation_average += living_generation.children[j].personal_fitness
+            generations_average_fitness.append(living_generation.generation_average/offspring)
             living_generation.write_generation(i+1)
+    gen_averages = open('GA.csv', 'w')
+    with gen_averages:
+        writer = csv.writer(gen_averages)
+        writer.writerows(generations_average_fitness)
+    print("Writing successful")
 
+    '''code to show the best solution and stop the program'''
+    # for j in range(len(living_generation.children)):
+    #     if int(living_generation.children[j].personal_fitness) <= best_solution:
+    #         print("Place: " + str(j) + " in gen " + str(i) + "best solution is: " + str(best_solution))
+    # for k in range(offspring):
+    #     if (living_generation.children[k].personal_fitness <= str(best_solution)):
+    #         city_name_order = ""
+    #         for names in range(len(living_generation.children[k].personal_cities)):
+    #             city_name_order = city_name_order + living_generation.children[k].personal_cities[names].name
+    #             if (names < (len(living_generation.children[k].personal_cities) - 1)):
+    #                 city_name_order = city_name_order + ","
+    #         print("A viable solution is: " + str(living_generation.children[k].personal_fitness))
+    #         print("And the distance is " + str(living_generation.children[k].personal_fitness) + " miles")
+    #         return
+    '''this is just to make lots of generations'''
+    # living_generation.children = []
+    # for k in range(offspring):
+    #     living_generation.children.append(living_generation.create_random_child())
+    #     living_generation.children[k].calculate_fitness()
+    #     living_generation.children[k].calculate_score()
+    '''the fun ends here'''
 
-
-
-
+    '''Code to try and remove weak children from the generation'''
+    # count1 = 0
+    # count2 = 0
+    # count3 = 0
+    # for j in range(len(living_generation.children)):
+    #     count1 += 1
+    #     if int(living_generation.children[j].personal_score == '10'):
+    #         print(living_generation.children[j].personal_order)
+    # for j in range(len(living_generation.children)):
+    #     if int(living_generation.children[j].personal_score == '10'):
+    #         count2 += 1
+    #         living_generation.children.remove()
+    # for j in range(len(living_generation.children)):
+    #     count3 += 1
+    #     if int(living_generation.children[j].personal_score == '10'):
+    #         print(living_generation.children[j].personal_order)
+    ##################################
+    # surviving_offspring.clear()
+    # for j in range(len(living_generation.children)):
+    #     if living_generation.children[j].personal_score != '10':
+    #         surviving_offspring.append(living_generation.children[j])
 
 
 
@@ -338,13 +459,8 @@ def main():
 
 
 
-    # This is
-    # living_generation.read_generation()
-
-
-
     #while generation_number < total_Generations:
     #   pass
 
-if __name__ == '__main__' :
+if __name__ == '__main__':
     main()
