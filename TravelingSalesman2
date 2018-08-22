@@ -222,7 +222,7 @@ class Generation(object):
             self.tournament_list = []
             self.best_candidate = Chromosome(0, 0, []) #stupid bug here for some reason... without this it breaks...
             self.best_candidate.personal_fitness = 25000
-            for i in range(100):
+            for i in range(50):
                 self.tournament_list.append(choice(self.parents))
             if t == 0:
                 for j in range(len(self.tournament_list)):
@@ -261,7 +261,7 @@ class Generation(object):
             self.children.append(self.new_child)
 
     def mutation(self):
-        for i in range(10):
+        for i in range(30):
             self.mutation_start = randint(0, 10)
             self.mutation_end = self.mutation_start + 4
             self.mutation_array = self.children[i].personal_order[self.mutation_start:self.mutation_end]
@@ -319,7 +319,7 @@ def main():
     living_generation = Generation()
 
     '''Total Number of generations decided upon'''
-    total_generations = 400
+    total_generations = 300
 
     '''Holds the average fitness for each generation'''
     generations_average_fitness = []
